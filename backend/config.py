@@ -2,7 +2,10 @@
 
 import os
 from pydantic_settings import BaseSettings
-from typing import Optional
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -39,27 +42,4 @@ class Settings(BaseSettings):
 
 # Global settings instance
 settings = Settings()
-
-
-def load_api_keys_from_file(filepath: str = "api.md") -> None:
-    """Load API keys from the api.md file format."""
-    global settings
-    
-    if not os.path.exists(filepath):
-        return
-    
-    with open(filepath, "r") as f:
-        for line in f:
-            line = line.strip()
-            if "=" in line:
-                key, value = line.split("=", 1)
-                key = key.strip().lower()
-                value = value.strip()
-                
-                if key == "deepgram":
-                    settings.deepgram_api_key = value
-                elif key == "assemblyai":
-                    settings.assemblyai_api_key = value
-                elif key == "openai":
-                    settings.openai_api_key = value
 

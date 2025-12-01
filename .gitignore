@@ -1,5 +1,6 @@
 # API Keys - KEEP PRIVATE
-api.md
+.env
+.env.*
 
 # Python
 __pycache__/

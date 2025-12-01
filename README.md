@@ -1,143 +1,49 @@
-# Nova - Clinician Transcription Tool
+# Nova
 
-An intelligent medical transcription tool that goes beyond standard speech-to-text by implementing a **Multi-Model Orchestration System** for handling uncertain audio segments.
+A medical transcription app that actually gets the hard parts right.
 
-## Features
+When doctors record patient visits the audio quality isnt always perfect. Words get mumbled and background noise happens. Most transcription tools just guess and move on. Nova does something different.
 
-- **Multi-Model Transcription**: Uses 3 speech-to-text APIs (Deepgram, AssemblyAI, OpenAI Whisper) with word-level confidence scores
-- **Low Confidence Detection**: Identifies segments where confidence falls below threshold
-- **Orchestrator Council**: When confidence is low, invokes all 3 models for that segment
-- **LLM Judge**: Uses GPT-4 to evaluate which transcription fits best contextually
-- **Clinical Intelligence Extraction**: Identifies action items, numerical values (vitals, labs, dosages), and important clinical information
-- **Interactive Timeline**: Visual scrubbing with synchronized audio playback and karaoke-style text highlighting
+![Nova Interface](WebView.png)
 
-## Project Structure
+## What it does
+
+Nova uses three different AI transcription services at once. When one of them isnt confident about what was said it asks all three to try that part again. Then it uses GPT4 to pick the best answer based on context.
+
+It also pulls out the important stuff automatically. Things like prescriptions, follow up appointments, vitals, and lab values get highlighted so nothing gets missed.
+
+## The tech
+
+Backend is Python with FastAPI. Frontend is React and TypeScript with Tailwind. Audio visualization uses WaveSurfer.js.
+
+## Running it
+
+You need API keys from Deepgram, AssemblyAI, and OpenAI.
+
+Create a `.env` file in the backend folder
 
 ```
-nova/
-├── backend/                 # Python FastAPI backend
-│   ├── api/                # API routes
-│   ├── core/               # Orchestrator, confidence analyzer, LLM judge
-│   ├── models/             # Pydantic models
-│   ├── services/           # Transcription services, clinical extractor
-│   └── main.py             # FastAPI entry point
-│
-├── frontend/               # React + TypeScript frontend
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── stores/         # Zustand state management
-│   │   ├── services/       # API client
-│   │   └── types/          # TypeScript definitions
-│   └── package.json
-│
-└── api.md                  # API keys configuration
+DEEPGRAM_API_KEY=your_key_here
+ASSEMBLYAI_API_KEY=your_key_here
+OPENAI_API_KEY=your_key_here
 ```
 
-## Quick Start
+Then start the backend
 
-### Prerequisites
-
-- Python 3.11+
-- Node.js 18+
-- API keys for:
-  - Deepgram
-  - AssemblyAI
-  - OpenAI
-
-### Backend Setup
-
-```bash
+```
 cd backend
-
-# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+source venv/bin/activate
 pip install -r requirements.txt
-
-# Run the server
 python main.py
 ```
 
-The backend will start at `http://localhost:8000`
+And the frontend in another terminal
 
-### Frontend Setup
-
-```bash
+```
 cd frontend
-
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
 ```
 
-The frontend will start at `http://localhost:5173`
-
-### API Keys Configuration
-
-Create an `api.md` file in the project root with your API keys:
-
-```
-deepgram = your_deepgram_api_key
-AssemblyAI = your_assemblyai_api_key
-OpenAI = your_openai_api_key
-```
-
-Or set environment variables (copy `.env.example` to `.env` in the backend folder).
-
-## How It Works
-
-### Multi-Model Orchestration Flow
-
-1. **Primary Transcription**: Audio is first transcribed using Deepgram Nova-3 (fastest, most accurate)
-
-2. **Confidence Analysis**: The system scans for words with confidence below threshold (default: 0.75)
-
-3. **Orchestrator Council**: For uncertain segments:
-   - Extract the audio segment with context padding
-   - Send to all 3 transcription models concurrently
-   - Collect all transcriptions with confidence scores
-
-4. **LLM Judge**: GPT-4 evaluates candidates and:
-   - **SELECTS** the best existing transcription (strongly preferred)
-   - **SYNTHESIZES** only as a last resort if all candidates are clearly wrong
-
-5. **Clinical Extraction**: From the final transcript:
-   - Action items (prescriptions, follow-ups, referrals, tests)
-   - Numerical values (vitals, labs, dosages)
-   - Medical terminology
-
-6. **Timeline Generation**: Creates interactive timeline with:
-   - Word-level timestamps for karaoke sync
-   - Color-coded markers for different content types
-
-## Tech Stack
-
-### Backend
-- FastAPI
-- Pydantic for validation
-- aiohttp for async HTTP
-- pydub for audio processing
-
-### Frontend
-- React 18 with TypeScript
-- Vite for build tooling
-- Tailwind CSS with pastel color palette
-- WaveSurfer.js for audio visualization
-- Zustand for state management
-
-## API Endpoints
-
-- `POST /api/transcribe` - Upload audio file, returns job ID
-- `GET /api/transcription/{job_id}/status` - Check processing status
-- `GET /api/transcription/{job_id}` - Get full transcription result
-- `GET /api/audio/{job_id}` - Stream audio file
-- `GET /api/health` - Health check
-
-## License
-
-MIT
-
+Open localhost:5173 and upload an audio file.

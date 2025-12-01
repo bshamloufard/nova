@@ -5,29 +5,26 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from config import settings, load_api_keys_from_file
+from config import settings
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan handler."""
     # Startup
-    # Load API keys from file if available
-    load_api_keys_from_file("../api.md")
-    
     # Ensure upload directory exists
     os.makedirs(settings.upload_dir, exist_ok=True)
     
-    print(f"🚀 Nova Transcription Tool starting...")
-    print(f"📁 Upload directory: {settings.upload_dir}")
-    print(f"🔑 Deepgram API key: {'✓' if settings.deepgram_api_key else '✗'}")
-    print(f"🔑 AssemblyAI API key: {'✓' if settings.assemblyai_api_key else '✗'}")
-    print(f"🔑 OpenAI API key: {'✓' if settings.openai_api_key else '✗'}")
+    print(f"Nova Transcription Tool starting...")
+    print(f"Upload directory: {settings.upload_dir}")
+    print(f"Deepgram API key: {'ready' if settings.deepgram_api_key else 'missing'}")
+    print(f"AssemblyAI API key: {'ready' if settings.assemblyai_api_key else 'missing'}")
+    print(f"OpenAI API key: {'ready' if settings.openai_api_key else 'missing'}")
     
     yield
     
     # Shutdown
-    print("👋 Nova Transcription Tool shutting down...")
+    print("Nova shutting down...")
 
 
 # Create FastAPI application
