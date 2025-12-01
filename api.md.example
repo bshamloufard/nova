@@ -1,0 +1,7 @@
+# API Keys Configuration
+# Copy this file to api.md and fill in your API keys
+
+deepgram = your_deepgram_api_key_here
+AssemblyAI = your_assemblyai_api_key_here
+OpenAI = your_openai_api_key_here
+

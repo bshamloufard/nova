@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for theming */
+:root {
+  /* Primary Actions */
+  --primary-100: #E0E7FF;
+  --primary-200: #C7D2FE;
+  --primary-500: #6366F1;
+  --primary-600: #4F46E5;
+
+  /* Timeline Markers */
+  --action-item: #FDE68A;
+  --numerical-value: #BBF7D0;
+  --uncertain-segment: #FECACA;
+  --orchestrator-resolved: #DDD6FE;
+
+  /* Backgrounds */
+  --bg-primary: #FAFBFC;
+  --bg-secondary: #F3F4F6;
+  --bg-panel: #FFFFFF;
+
+  /* Text */
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+
+  /* Borders */
+  --border-light: #E5E7EB;
+  --border-medium: #D1D5DB;
+
+  /* Status Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    @apply bg-surface-primary text-gray-900 font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  /* Card component */
+  .card {
+    @apply bg-white rounded-xl shadow-soft border border-gray-100;
+  }
+
+  /* Button variants */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-500 text-white hover:bg-primary-600 
+           focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-700 hover:bg-gray-200 
+           focus:ring-gray-500;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-600 hover:bg-gray-100 
+           focus:ring-gray-400;
+  }
+
+  /* Badge component */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-action {
+    @apply badge bg-marker-action text-amber-800;
+  }
+
+  .badge-numerical {
+    @apply badge bg-marker-numerical text-green-800;
+  }
+
+  .badge-uncertain {
+    @apply badge bg-marker-uncertain text-red-800;
+  }
+
+  .badge-resolved {
+    @apply badge bg-marker-resolved text-purple-800;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-3 py-2 border border-gray-200 rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  /* Karaoke word styles */
+  .word {
+    @apply inline-block px-0.5 py-0.5 mx-0.5 rounded transition-all duration-150 cursor-pointer;
+  }
+
+  .word-active {
+    @apply bg-primary-100 text-primary-900 font-medium ring-2 ring-primary-300;
+  }
+
+  .word-uncertain {
+    @apply bg-marker-uncertain/50 text-red-700;
+  }
+
+  .word-resolved {
+    @apply bg-marker-resolved/50 text-purple-800;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-medium) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--border-medium);
+    border-radius: 3px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* WaveSurfer customization */
+.wavesurfer-region {
+  border-radius: 4px !important;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
