@@ -2,7 +2,7 @@
 
 A medical transcription app that gets the hard parts right.
 
-When doctors record patient visits the audio quality isnt always perfect. Words get mumbled and background noise happens. Most transcription tools just guess and move on. Nova does something different.
+When doctors record patient visits the audio quality isnt always perfect. Words get mumbled and background noise happens. Multi model "counseling" and context before and after is the solution.
 
 ![Nova Interface](WebView.png)
 
